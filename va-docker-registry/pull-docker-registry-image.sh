@@ -1,0 +1,1 @@
+sudo docker image pull registry:2
