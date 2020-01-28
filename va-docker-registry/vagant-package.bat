@@ -1,0 +1,1 @@
+vagrant package --output ../my-boxes/docker-registry.box

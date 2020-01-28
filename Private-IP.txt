@@ -1,0 +1,14 @@
+private network IP
+-------------------
+--> pour éviter toute collision sur réseau privé vagrant/virtualBox
+--> pour éventuels ajouts dans /etc/hosts
+------------------
+192.168.33.20 va-docker-registry dockregistry.mycompany.fun
+ 
+#-cloud-master = rancher , -cloud-manager = kubernates (etcd , control-pane)
+192.168.33.30 va-private-cloud-master private-cloud-master.mycompany.fun
+192.168.33.31 va-private-cloud-worker-a private-cloud-worker-a.mycompany.fun 
+192.168.33.32 va-private-cloud-worker-b private-cloud-worker-b.mycompany.fun
+192.168.33.33 va-private-cloud-manager private-cloud-manager.mycompany.fun
+
+192.168.33.36 va-mini-cloud mini-cloud.mycompany.fun (minikube inside)

@@ -1,0 +1,1 @@
+sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run dockregistry.mycompany.fun/rancher/rancher-agent:v2.3.4 --server https://private-cloud-master.mycompany.fun --token 7dj78xhn5hkd8jnkls76q2qkf5cg4t8rc2664qmwrqgxwmchv4gssc --ca-checksum f750313012ff658005199d1e7b6399d3537898ebc8560e1a25abf46b18fc938f --worker

@@ -21,8 +21,11 @@ sudo openssl req -newkey rsa:4096 -nodes -sha256 -keyout certs/domain.key -x509 
 
 # NB: if "self-signed certificates" , you will need to copy certs/domain.crt
 # on every host using docker and this private docker registry-pwd
-cp certs/domain.crt /vagrant/domain.crt
-cp certs/domain.crt /vagrant/dockregistry.mycompany.fun.crt
+cp certs/domain.crt /vagrant/new-generated-certs/dockregistry.mycompany.fun.crt
+cp certs/domain.key /vagrant/new-generated-certs/registry.key
+
+#cp certs/domain.crt /vagrant/domain.crt
+#cp certs/domain.crt /vagrant/dockregistry.mycompany.fun.crt
 
 #NB: le fichier /vagrant/dockregistry.mycompany.fun.crt
 #vu de l'extérieur (host windows) comme 
@@ -33,21 +36,13 @@ cp certs/domain.crt /vagrant/dockregistry.mycompany.fun.crt
 #vagrant/va-docker-integration/dockregistry.mycompany.fun.crt (for push)
 #vagrant/va-private-cloud-master/dockregistry.mycompany.fun.crt (for pull)
 
-
-#exemple sur autre ubuntu/debian? host (futur client vis à vis de ce projet):
-# sudo cp /vagrant/dockregistry.mycompany.fun.crt /usr/local/share/ca-certificates/dockregistry.mycompany.fun.crt
-# sudo update-ca-certificates
-sudo mkdir /etc/docker/certs.d/dockregistry.mycompany.fun
-sudo cp /vagrant/dockregistry.mycompany.fun.crt /etc/docker/certs.d/dockregistry.mycompany.fun/ca.crt
-sudo cp /vagrant/dockregistry.mycompany.fun.crt /usr/local/share/ca-certificates/dockregistry.mycompany.fun.crt
-sudo update-ca-certificates
-sudo service docker restart
-
-#checking certificate signing request: openssl req -text -noout -verify -in CSR.csr
 #Check a private key:
 sudo openssl rsa -in certs/domain.key -check
-#Check a certificate:
-sudo openssl x509 -in /vagrant/dockregistry.mycompany.fun.crt -text -noout
+
+#####
+## installation (pour docker) , du certificat sur cette vm
+## --> maintenant dans script annexe add_dockregistry_certificate.sh
+#####
 
 #Check an SSL connection. All the certificates (including Intermediates) should be displayed
 #sudo openssl s_client -connect www.paypal.com:443

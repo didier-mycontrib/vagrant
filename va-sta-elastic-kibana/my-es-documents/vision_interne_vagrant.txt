@@ -1,0 +1,2 @@
+ce répertoire sera vu comme /vagrant/my-es-documents
+en interne dans une machine virtuelle vagrant (vagrant ssh)

@@ -1,0 +1,29 @@
+What is xip.io?
+xip.io is a magic domain name that provides wildcard DNS
+for any IP address. Say your LAN IP address is 10.0.0.1.
+Using xip.io,
+
+          10.0.0.1.xip.io   resolves to   10.0.0.1
+      www.10.0.0.1.xip.io   resolves to   10.0.0.1
+   mysite.10.0.0.1.xip.io   resolves to   10.0.0.1
+  foo.bar.10.0.0.1.xip.io   resolves to   10.0.0.1
+
+...and so on. You can use these domains to access virtual
+hosts on your development web server from devices on your
+local network, like iPads, iPhones, and other computers.
+No configuration required!
+    
+
+How does it work?
+xip.io runs a custom DNS server on the public Internet.
+When your computer looks up a xip.io domain, the xip.io
+DNS server extracts the IP address from the domain and
+sends it back in the response.
+    
+
+Does xip.io cost anything?
+Nope! xip.io is a free service from Basecamp, the
+creators of Pow. We were tired of jumping through hoops
+to test our apps on other devices and decided to solve
+the problem once and for all.
+    

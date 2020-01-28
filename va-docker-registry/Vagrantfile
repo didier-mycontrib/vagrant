@@ -15,23 +15,27 @@ Vagrant.configure("2") do |config|
   config.hostmanager.enabled = true
   #config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
+  config.hostmanager.include_offline = true
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "with-docker-java-node"
+  #config.vm.box = "with-docker-java-node"
+  config.vm.box = "hashicorp/bionic64"
   config.vm.hostname = "dockregistry.mycompany.fun"
   
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "file:///D:/tp/vagrant/my-boxes/with-docker-java-node.box"
+  #config.vm.box_url = "file:///D:/tp/vagrant/my-boxes/with-docker-java-node.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  #config.vm.network "forwarded_port", guest: 80, host: 8282
-  config.vm.network "forwarded_port", guest: 5000, host: 5000
-  config.vm.network "forwarded_port", guest: 443, host: 443
+  #5000 = default docker registry port (no ssl)
+  #config.vm.network "forwarded_port", guest: 5000, host: 5000
+  #443=classic https port --> outside/host = 4443 to avoid port collision
+  #config.vm.network "forwarded_port", guest: 443, host: 443
+  config.vm.network "forwarded_port", guest: 443, host: 4443
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -40,8 +44,8 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-  config.vm.network "private_network", type: "dhcp"
+  config.vm.network "private_network", ip: "192.168.33.20"
+  
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -58,13 +62,15 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+  config.vm.boot_timeout = 600
+  config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
-  # end
+      vb.name = "va-docker-registry"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -76,8 +82,9 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision "shell", path: "pull-docker-registry-image.sh"
+  config.vm.provision "shell", path: "install-docker-ce-on-ubuntu18.sh"
   config.vm.provision "shell", path: "prepare-domain-ssl-certificates.sh"
+  config.vm.provision "shell", path: "add_dockregistry_certificate.sh"
   config.vm.provision "shell", path: "prepare-security-and-registry.sh"
   config.vm.provision "docker" do |d|
     d.run "registry-container" ,
@@ -87,9 +94,16 @@ Vagrant.configure("2") do |config|
 			"-v /srv/registry/security:/etc/security " + 
 			"-e REGISTRY_HTTP_ADDR=0.0.0.0:443 " +
 			"-e REGISTRY_HTTP_TLS_CERTIFICATE=/etc/security/registry.crt " +
-			"-e REGISTRY_HTTP_TLS_KEY=/etc/security/registry.key " +
-			"-e REGISTRY_AUTH=htpasswd " +
-			"-e REGISTRY_AUTH_HTPASSWD_PATH=/etc/security/htpasswd " +
-    		"-e REGISTRY_AUTH_HTPASSWD_REALM='Registry Realm' "
+			"-e REGISTRY_HTTP_TLS_KEY=/etc/security/registry.key "
+	#		"-e REGISTRY_HTTP_TLS_KEY=/etc/security/registry.key " +
+	#		"-e REGISTRY_AUTH=htpasswd " +
+	#		"-e REGISTRY_AUTH_HTPASSWD_PATH=/etc/security/htpasswd " +
+    #		"-e REGISTRY_AUTH_HTPASSWD_REALM='Registry Realm' "
+	# NB: sans options REGISTRY_AUTH , access distant sans authentification
+	#     avec options REGISTRY_AUTH, authentification demandée 
+	#    aussi bien pour le push que pour le pull (génant pour config kubernates)
+	#    A priori , conf idéale ==> intermédiaire nginx qui securise
+	#    finement avec auth que sur le push
+	
   end
 end

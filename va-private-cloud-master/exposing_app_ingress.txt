@@ -1,0 +1,38 @@
+haproxy vs ingress ?
+
+By default, Rancher v2.x use native Kubernetes Ingress, 
+which is backed by NGINX Ingress Controller for layer 7 load balancing
+
+load balancing : layer 7 (couche appli)
+                 layer 4 (couche tcp / transport )
+
+ingress --> only http(:80) & https(:443) !!!
+
+NB: un service interne de kubernates peut gérer un load-balancing qu'en interne !!
+
+load balancing mode :
+  - cluster ip means INTERNAL service (into the cluster)
+    not outside access sauf (en dev et en théorie) via (kubectl proxy --port=8001
+     et http://localhost:8001/api/v1/proxy/namespaces/<NAMESPACE>/services/<SERVICE-NAME>:<PORT-NAME>/
+      ex: http://localhost:8001/api/v1/proxy/namespaces/default/services/...:... )
+     or
+  - nodePort : chaque vm expose un même numéro de port (qui sera associé , par redirection , 
+               à un service interne du cluster kubernates
+               30000–32767 est la plage des "nodePorts possibles")
+              le service interne sera donc (indirectement) accessible depuis 
+              tous les membres du cluster .
+              si plusieurs services à exposer --> plusieurs nodePorts nécessaires
+              Pas idéal , mais simple et efficace .
+     or
+  - ingress (Level 7 load-balanging):
+              un point d'entrée unique (address Ip , num port) 
+              peut rediriger vers différents services internes
+              via un aiguillage tenant compte d'un nom de domaine
+              ou d'une fin d'url 
+              http://hello.default.192.168.33.31.xip.io/
+              http://s2.default.192.168.33.31.xip.io/ 
+              http://www.xxx.com/s1 ,  http://www.xxx.com/s2 , ... 
+              Un ingress peut par exemple etre géré par nginx-ingress
+   
+----
+https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0

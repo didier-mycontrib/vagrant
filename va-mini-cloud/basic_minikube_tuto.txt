@@ -1,0 +1,31 @@
+sudo minikube start --vm-driver=none
+sudo minikube status
+sudo minikube dashboard --url &
+réperer numéro de port de l'url (ex: 45279)
+sudo nano /etc/nginx/sites-available/reverse-proxy.conf et ajuster numPort sur proxy pass
+sudo service nginx restart et lancer navigateur avec url ajustée sur numPort (8787)
+(http://127.0.0.1:8787/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/ de l'exterieur de vagrant)
+------
+sudo kubectl create deployment hello-node --image=gcr.io/hello-minikube-zero-install/hello-node
+ou bien
+#ok mais a eviter: sudo kubectl create secret docker-registry regcred --docker-server=dockregistry.mycompany.fun --docker-username=registry-sa --docker-password=registry-pwd
+#ok mais a eviter: sudo kubectl get secret regcred --output=yaml
+sudo kubectl create deployment hello-node --image=dockregistry.mycompany.fun/mybasic/helloworld
+
+
+sudo kubectl get deployments
+sudo kubectl get pods
+sudo kubectl get events
+sudo kubectl config view
+
+sudo kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+sudo kubectl get services
+sudo minikube service hello-node --url
+réperer valeur de l'url (http://10.0.2.15:30523)
+sudo nano /etc/nginx/sites-available/reverse-proxy.conf
+sudo service nginx restart
+(http://localhost:8888 de l'exterieur de vagrant)
+
+sudo kubectl delete service hello-node
+sudo kubectl delete deployment hello-node
+
