@@ -13,25 +13,28 @@ Vagrant.configure("2") do |config|
   #configuration of hostmanager plugin 
   #(vagrant plugin install vagrant-hostmanager) :
   config.hostmanager.enabled = true
-  config.hostmanager.manage_host = true
+  #config.hostmanager.manage_host = true
   config.hostmanager.manage_guest = true
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "with-docker-java-node"
+  config.vm.box = "hashicorp/bionic64"
+  # config.vm.box = "ubuntu18lts64-docker-compose"
   config.vm.hostname = "dockintegration.mycompany.fun"
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "file:///D:/tp/vagrant/my-boxes/with-docker-java-node.box"
-  #config.vm.box_url = "file:///D:/tp/vagrant/my-boxes/with-docker-images.box"
+  # config.vm.box_url = "file:///D:/tp/vagrant/my-boxes/ubuntu18lts64-docker-compose.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   # config.vm.network "forwarded_port", guest: 80, host: 8080
-  config.vm.network "forwarded_port", guest: 8080, host: 8383
+  # port for jenkins
+  config.vm.network "forwarded_port", guest: 8080, host: 8989
+   # port for java springBoot app
+  config.vm.network "forwarded_port", guest: 8181, host: 8181, auto_correct: true
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -41,6 +44,7 @@ Vagrant.configure("2") do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   # config.vm.network "private_network", ip: "192.168.33.10"
+  config.vm.network "private_network", ip: "192.168.33.50"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -57,13 +61,14 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+  config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
+     vb.memory = "2048"
+	 vb.cpus = "2"
+  end
   #
   # View the documentation for the provider you are using for more
   # information on available options.
@@ -75,5 +80,10 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision "shell", path: "pull-docker-images.sh"
+  config.vm.provision :docker
+  config.vm.provision :docker_compose
+  # NB: docker & docker_compose already added in ubuntu18lts64-docker-compose.box
+  config.vm.provision "shell", path: "add_dockregistry_certificate.sh"
+  config.vm.provision "shell", path: "install-openjdk11-and-maven-on-ubuntu18.sh"
+  config.vm.provision "shell", path: "install-jenkins.sh"
 end

@@ -5,7 +5,7 @@ Deploiement d'application sur un cluster "rancher"
 Mode "découverte / pas à pas , premiers pas via kubectl " :
 ----------------------------------------------------------
 - se connecter à la console rancher: http://localhost:5443 (admin/admin)
-- sélectionner un cluster préalamblement configuré (ex: "ca") 
+- sélectionner un cluster préalablement configuré (ex: "ca") 
 - cliquer sur "launch kubectl" de façon à faire apparaître la console texte
   intégrée à la console web "rancher" s'exécutant au sein du navigateur.
   Au sein de cette console texte (kubectl) , lancer les commandes suivantes:
@@ -48,6 +48,14 @@ Mode "workload via console rancher":
         censé être visible de l'extérieur du cluster "kubernates"
         mais selon contexte (ex: vm vagrant ou ...)
         adapation nécessaire ...
+
+Si nécessaire (dans etc/hosts ) :
+192.168.33.31	hello-ingress.default.192.168.33.31.xip.io
+ou 
+# pour accès depuis host windows/vagrant  (dans C:\windows\system32\drivers\etc\hosts) :
+127.0.0.1	hello-ingress.default.192.168.33.31.xip.io
+
+
 
 
 Mode automatisé:

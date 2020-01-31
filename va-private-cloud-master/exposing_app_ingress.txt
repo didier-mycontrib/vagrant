@@ -1,4 +1,4 @@
-haproxy vs ingress ?
+nodeport vs ingress ?
 
 By default, Rancher v2.x use native Kubernetes Ingress, 
 which is backed by NGINX Ingress Controller for layer 7 load balancing

@@ -38,4 +38,13 @@ echo "registry-pwd" | sudo htpasswd -iB /srv/registry/security/htpasswd registry
 #verify content of htpasswd file :
 cat /srv/registry/security/htpasswd
 
+#NB: the htpasswd file may be generated with 
+#https://www.web2generators.com/apache-tools/htpasswd-generator
+#registry-sa:$apr1$isjuzcy7$HgvxMl7oZKFtDENwSQTig0
+#with user=registry-sa and password=registry-pwd
+
+#for security with nginx proxy:
+sudo cp /vagrant/conf-nginx-registry/nginx.conf /srv/registry/security/nginx.conf
+cat /srv/registry/security/nginx.conf
+
 

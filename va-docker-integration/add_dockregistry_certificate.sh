@@ -1,4 +1,5 @@
 #because self signed certificate
+echo "192.168.33.20 va-docker-registry dockregistry.mycompany.fun" | sudo tee -a /etc/hosts
 
 #Check a certificate:
 sudo openssl x509 -in /vagrant/dockregistry.mycompany.fun.crt -text -noout

@@ -1,0 +1,11 @@
+build-timeout
+timestamper
+ws-cleanup (workspace cleanup)
+gradle
+nodejs
+git
+git-parameter ?
+workflow-aggregator (pipeline)
+ssh-slaves
+mailer
+email-ext

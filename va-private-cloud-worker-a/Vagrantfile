@@ -43,6 +43,11 @@ Vagrant.configure("2") do |config|
   # and must be mapped to 127.0.0.1 in host/windows 
   #     C:\windows\system32\drivers\etc\hosts (via notepad as admin or ...)
   config.vm.network "forwarded_port", guest: 80, host: 8831
+  # pour un éventuel acces simplifié en mode "nodePort" (sans ingress):
+  # curl http://192.168.33.31:31440 (inside guest)
+  # http://localhost:31440 (host browser)
+  config.vm.network "forwarded_port", guest: 31440, host: 31440
+ 
   
 
   # Create a forwarded port mapping which allows access to a specific port

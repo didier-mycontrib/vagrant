@@ -1,0 +1,1 @@
+vagrant package --output ../my-boxes/ubuntu18lts64-docker-compose.box

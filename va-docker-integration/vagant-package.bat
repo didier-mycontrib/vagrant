@@ -1,1 +1,1 @@
-vagrant package --output ../my-boxes/with-docker-images.box
+vagrant package --output ../my-boxes/docker-integration-jenkins.box

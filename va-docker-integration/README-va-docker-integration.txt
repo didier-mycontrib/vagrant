@@ -1,16 +1,13 @@
 Ce projet vagrant permet de configurer et démarrer une nouvelle box
-- en partant de la box fabriquée par va-base 
-  "../my-boxes/with-docker-java-node.box"
-  (linux ubuntu 18.4 64bits avec git, sudo, nano + docker + jdk/maven  + node/npm)
-- en provisionant quelques images "docker" fondamentales (nginx,...)
+- en partant de la box fabriquée par va-docker-base 
+  "../my-boxes/ubuntu18lts64-docker-compose"
+  (linux ubuntu 18.4 64bits avec git, sudo, nano + docker)
+- en provisionant la thechnologie d'intégration continue "jenkins"
 
 =====================
 Configuration réseau "vagrant":
-  config.vm.network "forwarded_port", guest: 80, host: 8383
-Configuration réseau du conteneur docker "nginx":
-  docker run --network host ... -d nginx
---> curl http://localhost:80 en interne (vagrant ssh)
---> http://localhost:8383 depuis navigateur de la machine hôte.
+  # port for jenkins
+  config.vm.network "forwarded_port", guest: 8989, host: 8989
 =====================
 Utilisée de l'intérieur (via vagrant ssh), cette machine virtuelle 
 permettra d'effectuer les opérations suivantes:

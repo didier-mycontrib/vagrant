@@ -1,0 +1,2 @@
+mvn build is faster with maven3 as local tool (/usr/share/maven)
+mvn build is slower in docker agent

@@ -1,0 +1,4 @@
+https://docs.docker.com/registry/recipes/nginx/
+
+https://askubuntu.com/questions/1049065/how-to-configure-docker-registry-with-nginx
+

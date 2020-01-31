@@ -8,12 +8,12 @@
 #kubectl version --client
 
 #installation de kubectl via apt-get
-#sudo apt-get update && sudo apt-get install -y apt-transport-https
-#curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-#echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
-#sudo apt-get update
-#sudo apt-get install -y kubectl
-#kubectl version --client
+sudo apt-get update && sudo apt-get install -y apt-transport-https
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+kubectl version --client
 
 #NB: no install hypervisor "virtualbox" or "kvm" here
 #because we are already in a virtualBox vm (via vagrant)
