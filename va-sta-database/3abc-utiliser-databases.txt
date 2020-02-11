@@ -1,0 +1,7 @@
+utiliser les bases de données
+via des applications externes (java, nodejs, ...)
+
+de l'exterieur de la vm/box "va-sta-database" ,
+mysql est vu sur le port :3307 (car :3306 souvent utilisé)
+
+mysql --port 3307 -u root -p

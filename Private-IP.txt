@@ -14,3 +14,5 @@ private network IP
 192.168.33.36 va-mini-cloud mini-cloud.mycompany.fun (minikube inside)
 
 192.168.33.50 va-docker-integration docker-integration.mycompany.fun (jenkins inside)
+
+192.168.33.60 va-sta-database database.mycompany.fun (mysql , postgresql, ... inside)
